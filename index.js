@@ -1,8 +1,52 @@
-const contacts = require("./contacts");
-contacts.listContacts();
-contacts.getContactById("3");
-contacts.removeContact("2")
-contacts.addContact("Dasha","bd.@gmail.com","111111111111"
-  )
+const { listContacts, getContactById, removeContact, addContact } = require("./contacts");
 
-module.exports = contacts;
+const { Command } = require("commander");
+const program = new Command();
+program
+  .option("-a, --action <type>", "choose action")
+  .option("-i, --id <type>", "user id")
+  .option("-n, --name <type>", "user name")
+  .option("-e, --email <type>", "user email")
+  .option("-p, --phone <type>", "user phone");
+
+program.parse(process.argv);
+
+const argv = program.opts();
+
+
+const invokeAction = async ({ action, id, name, email, phone }) => {
+  switch (action) {
+    case "list":
+    const contacts = await listContacts();
+    console.log(contacts);
+      break;
+
+    case "get":
+      const contact = await getContactById(id);
+      if(!contact){
+        throw new Error(`Contact with id=${id} not found!`);
+    }
+    console.log(contact);
+      break;
+
+    case "add":
+      const newContact = await addContact(name, email, phone);
+      console.log(newContact);
+      break;
+
+    case "remove":
+      const deleteContact = await removeContact(id);
+      console.log(deleteContact); 
+      break;
+
+    default:
+      console.warn("\x1B[31m Unknown action type!");
+  }
+}
+
+
+// invokeAction({action: 'list'})
+// invokeAction({action: 'get', id: "1"})
+// invokeAction({action: 'remove', id: '4'})
+// invokeAction({action: 'add', name: "Dasha", email: "bd@gmail.com", phone: "11111111111" })
+// invokeAction(argv);
