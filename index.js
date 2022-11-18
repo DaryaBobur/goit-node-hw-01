@@ -18,7 +18,7 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
   switch (action) {
     case "list":
     const contacts = await listContacts();
-    console.log(contacts);
+    console.table(contacts);
       break;
 
     case "get":
@@ -47,6 +47,6 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
 
 // invokeAction({action: 'list'})
 // invokeAction({action: 'get', id: "1"})
-// invokeAction({action: 'remove', id: '4'})
+invokeAction({action: 'remove', id: '4473d7cb-e1ee-4b5e-933c-1f5393e4c527'})
 // invokeAction({action: 'add', name: "Dasha", email: "bd@gmail.com", phone: "11111111111" })
 // invokeAction(argv);
