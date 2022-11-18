@@ -23,10 +23,11 @@ return idContact;
 const removeContact = async (contactId) => {
     const contacts = await listContacts();
     const index = contacts.findIndex(contact => contact.id === contactId);
-    const removeContactData = contacts.splice(index, 1);
+    
     if(index === -1){
         return null;
     }
+    const [removeContactData] = contacts.splice(index, 1);
     await fs.writeFile(contactsPath, JSON.stringify(contacts));
     return removeContactData;
 }
@@ -41,8 +42,11 @@ const newContact = {
     phone, 
 };
 
+
 contacts.push(newContact);
 await fs.writeFile(contactsPath, JSON.stringify(contacts));
+
+
 return newContact;
 }
 
@@ -50,5 +54,5 @@ module.exports = {
     listContacts,
     getContactById,
     removeContact,
-    addContact
+    addContact,
 }
